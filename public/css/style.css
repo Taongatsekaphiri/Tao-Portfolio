@@ -1,0 +1,380 @@
+/* Reset some defaults */
+body, h1, h2, h3, p, ul, li, img {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+
+
+nav a.active {
+    font-weight: bold;
+    color: black;
+}
+
+.site-header {
+    padding: 15px 0;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.05);
+}
+
+.header-container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 20px;
+}
+
+
+/* Header / Navigation (original style kept) */
+header {
+    background-color: #0f766e;
+    padding: 20px 0;
+    text-align: center;
+    border-bottom: 1px solid #e5e7eb;
+}
+
+nav ul {
+    list-style: none;
+    display: flex;
+    justify-content: center;
+    gap: 30px;
+    padding: 0;
+    margin: 10px 0 0 0;
+}
+
+nav ul li a {
+    text-decoration: none;
+    color: #0d9488;
+    font-weight: bold;
+    font-size: 1em;
+    transition: 0.3s;
+}
+
+nav ul li a:hover, nav ul li a.active {
+    color: #0f766e;
+    text-decoration: underline;
+}
+
+/* Hero Section */
+.hero {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 80px 20px;
+    gap: 60px;
+    background: linear-gradient(to right, #d9f7f1, #ffffff);
+    flex-wrap: wrap;
+}
+
+.hero-left {
+    flex: 1 1 400px;
+    max-width: 600px;
+    animation: slideInLeft 1s ease forwards;
+    opacity: 0;
+}
+
+.hero-left h1 {
+    font-size: 2.5em;
+    margin-bottom: 20px;
+    line-height: 1.2;
+    color: #0d9488;
+}
+
+.hero-left p {
+    font-size: 1.1em;
+    margin-bottom: 25px;
+}
+
+.tags {
+    margin-bottom: 25px;
+}
+
+.tags span {
+    background-color: #ffffff;
+    color: #0d9488;
+    padding: 6px 12px;
+    border-radius: 15px;
+    margin-right: 10px;
+    font-size: 0.95em;
+    display: inline-block;
+    animation: fadeIn 1s ease forwards;
+}
+
+.cta-button {
+    display: inline-block;
+    padding: 12px 25px;
+    background-color: #0d9488;
+    color: #fff;
+    text-decoration: none;
+    border-radius: 25px;
+    font-weight: bold;
+    transition: all 0.3s ease;
+    transform: translateY(20px);
+    opacity: 0;
+    animation: riseUp 1s 0.6s ease forwards;
+}
+
+.cta-button:hover {
+    background-color: #0f766e;
+    transform: scale(1.05);
+}
+
+.hero-right {
+    flex: 1 1 300px;
+    max-width: 400px;
+    text-align: center;
+    animation: slideInRight 1s ease forwards;
+    opacity: 0;
+}
+
+.hero-right img.hero-image {
+    width: 100%;
+    border-radius: 15px;
+    transition: transform 0.4s ease, box-shadow 0.4s ease;
+}
+
+.hero-right img.hero-image:hover {
+    transform: scale(1.05) rotate(-1deg);
+    box-shadow: 0 10px 20px rgba(0,0,0,0.2);
+}
+
+/* Animations */
+@keyframes slideInLeft {
+    from { transform: translateX(-50px); opacity: 0; }
+    to { transform: translateX(0); opacity: 1; }
+}
+
+@keyframes slideInRight {
+    from { transform: translateX(50px); opacity: 0; }
+    to { transform: translateX(0); opacity: 1; }
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
+}
+
+@keyframes riseUp {
+    from { opacity: 0; transform: translateY(20px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+/* Responsive adjustments */
+@media (max-width: 900px) {
+    .hero {
+        flex-direction: column-reverse;
+        text-align: center;
+    }
+    .hero-left, .hero-right {
+        max-width: 100%;
+    }
+}
+
+/* Fade-in/out text effect (new) */
+#typed-text {
+    font-size: 1.2em;
+    color: #0d9488;
+    font-weight: 500;
+    min-height: 70px; /* prevents jump when text changes */
+    text-align: left; /* adjust to center if needed */
+    transition: opacity 0.5s ease-in-out;
+}
+
+/* Footer */
+footer {
+    background-color: #ffffff;
+    text-align: center;
+    padding: 20px 0;
+    border-top: 1px solid #e5e7eb;
+}
+
+footer a {
+    color: #0d9488;
+    text-decoration: none;
+    margin: 0 5px;
+}
+
+footer a:hover {
+    color: #0f766e;
+    text-decoration: underline;
+}
+
+
+.logo-profile .profile-pic {
+    width: 60px;
+    height: 60px;
+    border-radius: 50%;
+    border: 2px solid #fff;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.logo-profile .profile-pic:hover {
+    transform: scale(1.1);
+    box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+}
+
+nav ul {
+    list-style: none;
+    display: flex;
+    gap: 25px;
+}
+
+nav ul li a {
+    text-decoration: none;
+    color: #333;
+    font-weight: 600;
+    font-size: 1em;
+    padding: 6px 12px;
+    border-radius: 8px;
+    transition: all 0.3s ease;
+}
+
+nav ul li a:hover,
+nav ul li a.active {
+    background-color: #fff;
+    color:  #0f766e; /* hot pink for hover */
+    box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+}
+
+.back-btn {
+    display: inline-block;
+    padding: 8px 15px;
+    margin: 15px 0;
+    background-color:#0f766e;  /* baby pink to match header */
+    color: #fff;
+    text-decoration: none;
+    border-radius: 8px;
+    font-weight: bold;
+    transition: all 0.3s ease;
+}
+
+.back-btn:hover {
+    background-color: #f79acb; /* slightly darker pink on hover */
+    transform: translateY(-2px);
+    box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+}
+
+
+
+.site-header {
+   position: fixed;
+    top: 15px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: auto;
+    padding: 10px 20px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background: linear-gradient(to right, #d9f7f1, #ffffff);
+    border-radius: 15px;
+    box-shadow: 0 3px 10px rgba(0,0,0,0.05); /* subtle shadow */
+    z-index: 1000;
+    transition: background-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+.site-header h4 {
+    font-family: 'Baloo 2', cursive;
+    font-size: 1.4rem; /* smaller logo font */
+}
+
+nav a {
+    font-family: 'Baloo 2', cursive;
+    font-size: 0.9rem; /* smaller nav links */
+    font-weight: 500;
+}
+
+
+.site-header.scrolled {
+    background-color: rgba(255, 255, 255, 0.95); /* subtle white on scroll */
+    box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+}
+
+nav ul {
+    display: flex;
+    gap: 30px;
+    list-style: none;
+}
+
+nav a {
+    text-decoration: none;
+    color: black;
+    font-weight: 500;
+    transition: color 0.3s ease;
+}
+
+nav a.active {
+    border-bottom: 2px solid black; /* highlight active link */
+}
+
+nav a:hover {
+    color: #555;
+}
+
+.site-header h4 {
+    font-family: 'Fredoka One', sans-serif; /* playful for logo */
+    font-size: 1.5rem;
+}
+
+nav a {
+    font-family: 'Quicksand', sans-serif; /* playful but readable for links */
+    font-size: 1rem;
+}
+
+/* ——— Scene Container ——— */
+.scene-container {
+    position: relative;
+    width: 420px;
+    margin: 0 auto;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+.scene-right {
+    position: relative;
+    width: 420px;
+    height: 420px;
+    margin: auto;
+}
+
+/* Coding image is the background layer */
+.coding-bg {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 100%;
+    transform: translate(-50%, -50%);
+    z-index: 1; /* 🎯 BACK LAYER */
+    pointer-events: none;
+}
+
+/* Love icon top-right */
+.love-top-right {
+    position: absolute;
+    top: 15px;
+    right: 15px;
+    width: 65px;
+    z-index: 3; /* FRONT */
+}
+
+/* Book on right mid-level */
+.book-right {
+    position: absolute;
+    right: 20px;
+    top: 55%;
+    width: 65px;
+    transform: translateY(-50%);
+    z-index: 3; /* FRONT */
+}
+
+/* Plant bottom center */
+.plant-bottom {
+    position: absolute;
+    bottom: 15px;
+    left: 50%;
+    width: 110px;
+    transform: translateX(-50%);
+    z-index: 3; /* FRONT */
+}

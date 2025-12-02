@@ -1,0 +1,56 @@
+<%- include('partials/header', { page: 'projects', pageStyles:
+ '<link rel="stylesheet" href="/css/style.css"><link rel="stylesheet" href="/css/projects.css">' }) %>
+
+
+<a href="javascript:history.back()" class="back-btn">← Back</a>
+
+
+<section class="projects">
+    <h2>Selected Projects</h2>
+
+    <!-- Filter buttons -->
+    <div class="project-filters">
+        <button class="filter-btn active" data-filter="all">All Projects</button>
+        <button class="filter-btn" data-filter="UI/UX">Web Development / UI/UX</button>
+        <button class="filter-btn" data-filter="Data Management">Data Management / Database</button>
+    </div>
+
+   <div class="project-grid">
+    <% projects.forEach(project => { %>
+        <div class="project-card" data-category="<%= project.category %>">
+            <img src="<%= project.imageUrl %>" alt="<%= project.title %>">
+            <div class="project-info">
+                <h3><%= project.title %></h3>
+                <p><%= project.description %></p>
+                <span><%= project.tech %></span>
+                <% if(project.link) { %>
+                    <a href="<%= project.link %>" target="_blank">View Project</a>
+                <% } %>
+            </div>
+        </div>
+    <% }) %>
+</div>
+
+</section>
+
+<script>
+    const filterButtons = document.querySelectorAll('.filter-btn');
+    const projectCards = document.querySelectorAll('.project-card');
+
+    filterButtons.forEach(btn => {
+        btn.addEventListener('click', () => {
+            filterButtons.forEach(b => b.classList.remove('active'));
+            btn.classList.add('active');
+
+            const filter = btn.getAttribute('data-filter');
+
+            projectCards.forEach(card => {
+                if(filter === 'all' || card.getAttribute('data-category') === filter) {
+                    card.style.display = 'block';
+                } else {
+                    card.style.display = 'none';
+                }
+            });
+        });
+    });
+</script>

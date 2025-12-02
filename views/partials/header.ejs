@@ -1,0 +1,23 @@
+<link href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+
+<header class="site-header">
+    <div class="header-container">
+        <div class="logo-profile">
+           
+        </div>
+        <nav>
+            <ul>
+                <li><a href="/" class="<%= page === 'home' ? 'active' : '' %>">HOME</a></li>
+                <li><a href="/about" class="<%= page === 'about' ? 'active' : '' %>">ABOUT</a></li>
+                <li><a href="/projects" class="<%= page === 'projects' ? 'active' : '' %>">PROJECTS</a></li>
+                <li><a href="/contact" class="<%= page === 'contact' ? 'active' : '' %>">CONTACT</a></li>
+            </ul>
+        </nav>
+    </div>
+</header>
+
+
+<% if (pageStyles) { %>
+    <%- pageStyles %>
+<% } %>

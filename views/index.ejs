@@ -1,0 +1,69 @@
+
+ <%- include('partials/header', { 
+    page: 'home', 
+    pageStyles: '<link rel="stylesheet" href="/css/style.css">' 
+}) %>
+
+<link rel="stylesheet" href="/css/style.css">
+
+<main class="hero">
+
+    <div class="hero-left">
+        <h1>G'day, I'm Taonga!<br>I'm a Designer turned Developer ✨</h1>
+        <p id="typed-text"></p> <!-- Fade effect text will appear here -->
+        <div class="tags">
+            <span>Front-End Development</span>
+            <span>UI/UX Design</span>
+            <span>React</span>
+            <span>Database Management</span>
+        </div>
+        <a href="/projects" class="cta-button">View My Project Log</a>
+    </div>
+    <div class="hero-right">
+        <!-- <img src="/images/cute.png" alt="Taonga Tseka Phiri" class="hero-image"> -->
+
+<main class="hero-split">
+    <div class="scene-right">
+
+        <!-- Coding image (background) -->
+        <img src="/images/coding.png" class="coding-bg" alt="coding illustration">
+
+        <!-- Love icon top right -->
+        <img src="/images/love.png" class="love-top-right" alt="love illustration">
+
+        <!-- Book on right -->
+        <img src="/images/book.png" class="book-right" alt="book illustration">
+
+        <!-- Plant bottom center -->
+        <img src="/images/cuteflower.png" class="plant-bottom" alt="plant illustration">
+
+    </div>
+</main>
+
+    
+</main>
+
+<!-- Fade-in/out Text Script -->
+<script>
+const lines = [
+    "💻 A Digital Dreamweaver and Pixel Princess who believes technology should be as beautiful as it is powerful.",
+    "I craft innovative web applications and manage databases.",
+    "I transform ideas into functional digital experiences 🌸."
+];
+
+let index = 0;
+const typedEl = document.getElementById('typed-text');
+
+function showLine() {
+    typedEl.style.opacity = 0; // hide
+    setTimeout(() => {
+        typedEl.innerText = lines[index];
+        typedEl.style.opacity = 1; // fade in
+        index = (index + 1) % lines.length; // next line
+        setTimeout(showLine, 3000); // show next after 3s
+    }, 500); // fade-out duration
+}
+
+// start animation
+showLine();
+</script>

@@ -1,0 +1,30 @@
+<%- include('partials/header', { page: 'about', pageStyles: 
+'<link rel="stylesheet" href="/css/style.css"><link rel="stylesheet" href="/css/about.css">' }) %>
+
+<section class="about-container">
+    <!-- Left Column: Profile Image -->
+    <div class="about-left">
+        <img src="/images/taonga-profile.jpg" alt="Taonga Tseka Phiri" class="profile-img">
+        <a href="/docs/Taonga_CV.pdf" class="cv-btn" download>
+            <i class="fas fa-download"></i> Download CV
+        </a>
+    </div>
+
+    <!-- Right Column: Introduction & Skills -->
+    <div class="about-right">
+       
+        <p>
+             I studied Bachelor of Science in ICT at Mzuzu University, based in Blantyre, Malawi. 
+            I am passionate about software development, web programming, and database management, and I enjoy creating solutions that are both functional and user-friendly.
+        </p>
+
+        <h2><i class="fas fa-laptop-code"></i> Skills</h2>
+        <ul class="skills">
+            <li>JavaScript, React, Next.js, Node.js, Express.js</li>
+            <li>HTML, CSS, EJS</li>
+            <li>SQL, SQLite, MongoDB, Mongoose</li>
+            <li>Git, VS Code, npm</li>
+            <li>Responsive Design & UI/UX</li>
+        </ul>
+    </div>
+</section>
