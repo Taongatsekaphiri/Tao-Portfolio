@@ -338,17 +338,18 @@ nav a {
     height: 420px;
     margin: auto;
 }
-
-/* Coding image is the background layer */
+/* Coding image brought to front */
 .coding-bg {
     position: absolute;
     top: 50%;
     left: 50%;
-    width: 100%;
+    width: 80%;            /* optional: make it a bit smaller */
+    max-width: 500px;      /* optional: cap size */
     transform: translate(-50%, -50%);
-    z-index: 1; /* 🎯 BACK LAYER */
-    pointer-events: none;
+    z-index: 2;            /* higher than 1, so it’s no longer the back layer */
+    pointer-events: none;  /* keep if you still want clicks to pass through */
 }
+
 
 /* Love icon top-right */
 .love-top-right {
@@ -358,23 +359,11 @@ nav a {
     width: 65px;
     z-index: 3; /* FRONT */
 }
-
-/* Book on right mid-level */
-.book-right {
-    position: absolute;
-    right: 20px;
-    top: 55%;
-    width: 65px;
-    transform: translateY(-50%);
-    z-index: 3; /* FRONT */
-}
-
-/* Plant bottom center */
 .plant-bottom {
     position: absolute;
-    bottom: 15px;
-    left: 50%;
-    width: 110px;
-    transform: translateX(-50%);
-    z-index: 3; /* FRONT */
+    bottom: 70px;      /* stays at the bottom of coding image */
+    right: 0px;        /* bottom-left position */
+    width: 70px;       /* same size as love image */
+    transform: none;   /* remove centering */
+    z-index: 3;        /* stays in front */
 }

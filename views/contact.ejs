@@ -1,18 +1,14 @@
-<%- include('partials/header', { page: 'contact', pageStyles:
- '<link rel="stylesheet" href="/css/style.css"><link rel="stylesheet" href="/css/contact.css">' }) %>
-
+<%- include('partials/header', { page: 'contact', pageStyles: pageStyles }) %>
 
 <a href="javascript:history.back()" class="back-btn">← Back</a>
 
-
 <div class="contact-page">
-
     <div class="contact-left">
         <h1>Let's Build Something Remarkable</h1>
         <p>Feeling social? Find me on these online spaces too!</p>
         <ul class="contact-info">
-            <li>Email: <a href="mailto:info@yourdomain.com">tsekaphiritaonga@gmail.com</a></li>
-            <li>Phone: <a href="tel:+265998888020">+265 99888820</a></li>
+            <li>Email: <a href="mailto:tsekaphiritaonga@gmail.com">tsekaphiritaonga@gmail.com</a></li>
+            <li>Phone: <a href="tel:+265998888020">+265 998888020</a></li>
             <li>Location: Lilongwe, Malawi</li>
         </ul>
         <div class="social-links">
@@ -35,17 +31,12 @@
                     <label>Email</label>
                 </div>
                 <div class="form-group">
-                    <input type="text" name="subject" placeholder=" " required>
-                    <label>Subject</label>
-                </div>
-                <div class="form-group">
                     <textarea name="message" placeholder=" " required></textarea>
                     <label>Your Message</label>
                 </div>
                 <button type="submit" class="submit-btn">Send</button>
             </form>
 
-            <!-- Success Message with Checkmark -->
             <div id="formMessage" class="success-msg" style="display: none; flex-direction: column; align-items: center; gap: 10px;">
                 <svg width="50" height="50" viewBox="0 0 24 24">
                     <path fill="none" stroke="#10b981" stroke-width="3" d="M4 12l6 6L20 6"/>
@@ -55,7 +46,6 @@
             </div>
         </div>
     </div>
-
 </div>
 
 <footer>
@@ -69,24 +59,30 @@ const sendAnother = document.getElementById('sendAnother');
 
 form.addEventListener('submit', function(e) {
     e.preventDefault();
-    const formData = new FormData(form);
+
+    const data = {
+        name: form.name.value,
+        email: form.email.value,
+        message: form.message.value
+    };
 
     fetch('/contact', {
         method: 'POST',
-        body: formData
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(data)
     })
-    .then(response => response.text())
+    .then(res => res.json())
     .then(data => {
-        form.style.display = 'none';
-        formMessage.style.display = 'flex';
+        if (data.status === 'success') {
+            form.style.display = 'none';
+            formMessage.style.display = 'flex';
+        } else {
+            alert("Error: " + data.details);
+        }
     })
-    .catch(error => {
-        alert('Oops! Something went wrong. Please try again.');
-        console.error(error);
-    });
+    .catch(err => console.error(err));
 });
 
-// Show form again if user wants to send another message
 sendAnother.addEventListener('click', function() {
     form.reset();
     form.style.display = 'block';

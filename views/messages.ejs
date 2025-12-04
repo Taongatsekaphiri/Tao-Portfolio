@@ -1,0 +1,29 @@
+<%- include('partials/header', { 
+    page: 'messages', 
+    pageStyles: '<link rel="stylesheet" href="/css/messages.css">' 
+}) %>
+
+<div class="messages-page">
+  <!-- Welcome message -->
+  <div class="welcome-banner">
+    <h2>Hello Admin! </h2>
+  </div>
+
+  <div class="messages-container">
+    <% messages.forEach(msg => { %>
+      <div class="message-card">
+        <div class="message-meta">
+          <h3><%= msg.name || "N/A" %></h3>
+          <span>ID: <%= msg.id %> | <%= msg.email %></span>
+        </div>
+        <div class="message-body">
+          <p><%= msg.message %></p>
+        </div>
+      </div>
+    <% }) %>
+  </div>
+</div>
+
+<footer>
+  © Taonga Tseka Phiri <%= new Date().getFullYear() %> | Crafted with 💖
+</footer>

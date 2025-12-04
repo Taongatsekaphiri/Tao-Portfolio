@@ -1,20 +1,27 @@
-// FILE: app.js
 require('dotenv').config();
 const express = require('express');
 const path = require('path');
 const bodyParser = require('body-parser');
 const sqlite3 = require('sqlite3').verbose();
 
+const messagesRouter = require('./routes/messages');
+
 const app = express();
 const db = new sqlite3.Database('./database.sqlite');
 
-// Set view engine and static files
+// View engine
 app.set('view engine', 'ejs');
 app.set('views', path.join(__dirname, 'views'));
+
+// Middleware
 app.use(express.static(path.join(__dirname, 'public')));
 app.use(bodyParser.urlencoded({ extended: true }));
+app.use(bodyParser.json());
 
-// Create tables if not exist
+// Routes
+app.use('/messages', messagesRouter);
+
+// Tables
 db.run(`CREATE TABLE IF NOT EXISTS projects (
     id INTEGER PRIMARY KEY,
     title TEXT,
@@ -30,22 +37,9 @@ db.run(`CREATE TABLE IF NOT EXISTS contacts (
     message TEXT
 )`);
 
-// Routers
-const projectsRouter = require('./routes/projects');
-const contactRouter = require('./routes/contact');
-const aboutRouter = require('./routes/about');
-
-// Use routers
-app.use(express.static('public'));
-
-app.use('/projects', projectsRouter);
-app.use('/contact', contactRouter);
-app.use('/about', aboutRouter);
-app.use(express.static('public'));
-
-
-
-// Home page
+// ------------------------------
+// HOME PAGE
+// ------------------------------
 app.get('/', (req, res) => {
     res.render('index', { 
         page: 'home',
@@ -53,7 +47,9 @@ app.get('/', (req, res) => {
     });
 });
 
-// About page
+// ------------------------------
+// ABOUT PAGE
+// ------------------------------
 app.get('/about', (req, res) => {
     res.render('about', { 
         page: 'about',
@@ -61,27 +57,69 @@ app.get('/about', (req, res) => {
     });
 });
 
-// Projects page
+// ------------------------------
+// PROJECTS PAGE
+// ------------------------------
 app.get('/projects', (req, res) => {
-    db.all('SELECT * FROM projects', [], (err, rows) => {
-        if (err) throw err;
-        res.render('projects', { 
+
+    db.all(`SELECT * FROM projects`, [], (err, rows) => {
+        if (err) {
+            console.error("DB ERROR:", err);
+            return res.render('projects', { 
+                page: 'projects',
+                pageStyles: '<link rel="stylesheet" href="/css/style.css">',
+                projects: []
+            });
+        }
+
+        res.render('projects', {
             page: 'projects',
             pageStyles: '<link rel="stylesheet" href="/css/style.css">',
-            projects: rows 
+            projects: rows
         });
     });
 });
 
-// Contact page
+// ------------------------------
+// CONTACT PAGE (GET)
+// ------------------------------
 app.get('/contact', (req, res) => {
-    res.render('contact', { 
+    res.render('contact', {
         page: 'contact',
-        pageStyles: '<link rel="stylesheet" href="/css/style.css">'
+        pageStyles: `
+            <link rel="stylesheet" href="/css/style.css">
+            <link rel="stylesheet" href="/css/contact.css">
+        `
     });
 });
 
-// Start server
-const PORT = process.env.PORT || 3000;
-app.listen(PORT, () => console.log(`Server running at http://localhost:${PORT}`));
+// ------------------------------
+// CONTACT PAGE (POST)
+// ------------------------------
+app.post('/contact', (req, res) => {
+    const { name, email, message } = req.body;
 
+    if (!name || !email || !message) {
+        return res.status(400).json({ status: 'error', details: 'All fields are required.' });
+    }
+
+    db.run(
+        `INSERT INTO contacts (name, email, message) VALUES (?, ?, ?)`,
+        [name, email, message],
+        (err) => {
+            if (err) {
+                console.error("DB ERROR:", err);
+                return res.status(500).json({ status: 'error', details: err.message });
+            }
+
+            console.log("Saved contact to database.");
+            res.json({ status: 'success' });
+        }
+    );
+});
+
+// ------------------------------
+// START SERVER
+// ------------------------------
+const PORT = process.env.PORT || 3000;
+app.listen(PORT, () => console.log(`Server running at http://localhost:3000`));

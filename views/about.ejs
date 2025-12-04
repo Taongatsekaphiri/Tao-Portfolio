@@ -1,30 +1,39 @@
-<%- include('partials/header', { page: 'about', pageStyles: 
-'<link rel="stylesheet" href="/css/style.css"><link rel="stylesheet" href="/css/about.css">' }) %>
+<%- include('partials/header', { 
+    page: 'about', 
+    pageStyles: '<link rel="stylesheet" href="/css/style.css"><link rel="stylesheet" href="/css/about.css">' 
+}) %>
 
 <section class="about-container">
-    <!-- Left Column: Profile Image -->
-    <div class="about-left">
-        <img src="/images/taonga-profile.jpg" alt="Taonga Tseka Phiri" class="profile-img">
-        <a href="/docs/Taonga_CV.pdf" class="cv-btn" download>
-            <i class="fas fa-download"></i> Download CV
-        </a>
+
+    <!-- Left Column: Profile Image and CV Button -->
+  <div class="about-left">
+    <img src="/images/cute.png" alt="Taonga Tseka Phiri" class="profile-img">
+    <a href="/doc/Taonga_CV.pdf" download="Taonga_CV.pdf" class="cv-btn">
+        Download CV
+    </a>
+</div>
+
+
     </div>
 
     <!-- Right Column: Introduction & Skills -->
     <div class="about-right">
-       
         <p>
-             I studied Bachelor of Science in ICT at Mzuzu University, based in Blantyre, Malawi. 
-            I am passionate about software development, web programming, and database management, and I enjoy creating solutions that are both functional and user-friendly.
+            I studied Bachelor of Science in ICT at Mzuzu University, based in Blantyre, Malawi. 
+            I am passionate about software development, web programming, and database management. I enjoy creating solutions that are both functional and user-friendly.
         </p>
 
         <h2><i class="fas fa-laptop-code"></i> Skills</h2>
-        <ul class="skills">
-            <li>JavaScript, React, Next.js, Node.js, Express.js</li>
-            <li>HTML, CSS, EJS</li>
-            <li>SQL, SQLite, MongoDB, Mongoose</li>
-            <li>Git, VS Code, npm</li>
-            <li>Responsive Design & UI/UX</li>
-        </ul>
+       <ul class="skills">
+    <li>PC maintenance, troubleshooting, and hardware diagnostics</li>
+    <li>Operating systems: installation & configuration (Windows/Linux) and basic command-line usage</li>
+    <li>Web development (HTML, CSS, JavaScript, EJS), frontend frameworks (React, Next.js), and backend basics (Node.js, Express.js)</li>
+    <li>Database management (SQL, SQLite, MongoDB, Mongoose), database design (ERDs, normalization), and backups</li>
+    <li>System analysis & design, OOAD, use case/class diagrams, simple prototypes, and documentation</li>
+    <li>Networking: IP addressing, subnetting, router/switch setup, Wi-Fi troubleshooting, and basic network configuration</li>
+    <li>Information systems auditing, IT controls, risk assessment, access control, and cybersecurity basics</li>
+</ul>
+
     </div>
+
 </section>
