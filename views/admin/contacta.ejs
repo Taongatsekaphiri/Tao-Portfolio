@@ -1,0 +1,107 @@
+<link rel="stylesheet" href="/css/admin.css">
+
+
+<div class="admin-layout">
+  <%- include('../partials/sidebar') %>
+
+  <main class="main-content">
+    <div class="dashboard-header">
+      <h1>Manage Portfolio Contact Page</h1>
+      <p>Edit contact info, social links, and header text</p>
+    </div>
+
+    <!-- Edit Contact Info -->
+    <section class="contact-info-section">
+      <h2>Contact Information</h2>
+      <form id="updateContactInfoForm">
+        <label>Email</label>
+        <input type="email" name="email" value="<%= contact.email %>" required>
+
+        <label>Phone</label>
+        <input type="text" name="phone" value="<%= contact.phone %>" required>
+
+        <label>Location</label>
+        <input type="text" name="location" value="<%= contact.location %>" required>
+
+        <button type="submit">Update Info</button>
+        <div id="contactInfoMsg" class="success-msg" style="display: none;"></div>
+      </form>
+    </section>
+
+    <!-- Edit Social Links -->
+    <section class="social-links-section">
+      <h2>Social Links</h2>
+      <form id="updateSocialLinksForm">
+        <label>GitHub</label>
+        <input type="url" name="github" value="<%= contact.github %>">
+
+        <label>LinkedIn</label>
+        <input type="url" name="linkedin" value="<%= contact.linkedin %>">
+
+        <button type="submit">Update Social Links</button>
+        <div id="socialLinksMsg" class="success-msg" style="display: none;"></div>
+      </form>
+    </section>
+
+    <!-- Edit Header Text -->
+    <section class="header-text-section">
+      <h2>Header Text</h2>
+      <form id="updateHeaderTextForm">
+        <label>Title</label>
+        <input type="text" name="title" value="<%= contact.title %>">
+
+        <label>Subtitle / Description</label>
+        <textarea name="subtitle"><%= contact.subtitle %></textarea>
+
+        <button type="submit">Update Header</button>
+        <div id="headerTextMsg" class="success-msg" style="display: none;"></div>
+      </form>
+    </section>
+  </main>
+</div>
+
+<%- include('../partials/footer') %>
+
+<script>
+function ajaxFormSubmit(formId, url, msgId) {
+  const form = document.getElementById(formId);
+  const msgDiv = document.getElementById(msgId);
+
+  form.addEventListener('submit', function(e) {
+    e.preventDefault();
+    const formData = new FormData(form);
+    const data = Object.fromEntries(formData.entries());
+
+    fetch(url, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(data)
+    })
+    .then(res => res.json())
+    .then(result => {
+      if (result.status === 'success') {
+        msgDiv.style.display = 'block';
+        msgDiv.textContent = 'Updated successfully!';
+        Object.keys(result.data).forEach(key => {
+          const input = form.querySelector(`[name="${key}"]`);
+          if (input) input.value = result.data[key];
+        });
+      } else {
+        msgDiv.style.display = 'block';
+        msgDiv.textContent = 'Error: ' + (result.details || 'Unknown error.');
+      }
+      setTimeout(() => msgDiv.style.display = 'none', 3000);
+    })
+    .catch(err => {
+      msgDiv.style.display = 'block';
+      msgDiv.textContent = 'Error: ' + err.message;
+      setTimeout(() => msgDiv.style.display = 'none', 3000);
+    });
+  });
+}
+
+// Initialize all admin forms
+ajaxFormSubmit('updateContactInfoForm', '/admin/contact/update-info', 'contactInfoMsg');
+ajaxFormSubmit('updateSocialLinksForm', '/admin/contact/update-social', 'socialLinksMsg');
+ajaxFormSubmit('updateHeaderTextForm', '/admin/contact/update-header', 'headerTextMsg');
+</script>

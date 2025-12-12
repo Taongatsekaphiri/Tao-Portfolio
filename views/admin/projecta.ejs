@@ -1,0 +1,50 @@
+
+<link rel="stylesheet" href="/css/admin.css">
+<div class="admin-layout">
+  <%- include('../partials/sidebar') %>
+
+  <div class="admin-content">
+    <h2>Manage Projects</h2>
+
+    <!-- Add Project Form -->
+    <form action="/admin/projects/add" method="POST" enctype="multipart/form-data" class="project-form">
+        <input type="text" name="title" placeholder="Title" required>
+        <textarea name="description" placeholder="Description" required></textarea>
+        <input type="text" name="tech" placeholder="Technologies">
+        <input type="text" name="link" placeholder="Project Link">
+        <input type="text" name="category" placeholder="Category">
+        <input type="file" name="images" multiple>
+        <button type="submit">Add Project</button>
+    </form>
+
+    <!-- Existing Projects -->
+    <div class="project-list-admin">
+      <% projects.forEach((project) => { %>
+        <div class="project-card-admin">
+          <h3><%= project.title %></h3>
+          <form action="/admin/projects/update/<%= project.id %>" method="POST" enctype="multipart/form-data">
+              <input type="text" name="title" value="<%= project.title %>" required>
+              <textarea name="description" required><%= project.description %></textarea>
+              <input type="text" name="tech" value="<%= project.tech %>">
+              <input type="text" name="link" value="<%= project.link %>">
+              <input type="text" name="category" value="<%= project.category %>">
+              <input type="file" name="images" multiple>
+              <button type="submit">Update Project</button>
+          </form>
+<div class="images-admin">
+  <% project.images.forEach((img) => { %>
+    <div class="image-wrapper">
+      <img src="<%= img.path %>" alt="">
+      <a href="/admin/projects/image/delete/<%= img.id %>">Delete</a>
+    </div>
+  <% }) %>
+</div>
+
+
+
+          <a class="delete-project-btn" href="/admin/projects/delete/<%= project.id %>">Delete Project</a>
+        </div>
+      <% }) %>
+    </div>
+  </div>
+</div>

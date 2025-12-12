@@ -1,0 +1,62 @@
+
+.dashboard-header h1 {
+  font-size: 28px;
+  margin-bottom: 5px;
+  color: #ff1493; /* darker pink heading */
+}
+
+.empty-state {
+  margin-top: 40px;
+  font-size: 18px;
+  color: black; /* text black */
+  background: #ffffff; /* white background */
+  padding: 20px;
+  border-radius: 12px;
+  text-align: center;
+}
+
+/* Hidden Menu Toggle & Menu */
+.hidden-menu-toggle {
+  position: fixed; 
+  top: 15px;
+  right: 20px;
+  background: #ff69b4; /* bubble-pink toggle */
+  color: white;
+  padding: 8px 15px;
+  border-radius: 50px; 
+  cursor: pointer;
+  font-size: 14px;
+  z-index: 1000;
+  box-shadow: 0 2px 8px rgba(255, 20, 147, 0.3);
+  transition: 0.3s;
+}
+
+.hidden-menu-toggle:hover {
+  background: #ff1493; /* darker pink on hover */
+}
+
+.hidden-menu {
+  position: fixed;
+  top: 60px;
+  right: 20px;
+  background: #ffffff; /* white popup */
+  padding: 15px;
+  border-radius: 12px;
+  box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+  display: none;
+  flex-direction: column;
+  gap: 10px;
+  z-index: 999;
+}
+
+.hidden-menu a {
+  text-decoration: none;
+  color: black; /* links black */
+  padding: 8px 10px;
+  border-radius: 8px;
+  transition: 0.3s;
+}
+
+.hidden-menu a:hover {
+  background: #f0f0f0; /* subtle grey hover */
+}

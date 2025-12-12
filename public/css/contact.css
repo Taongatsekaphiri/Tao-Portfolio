@@ -1,7 +1,7 @@
 /* CONTACT PAGE STYLING */
 body {
     font-family: 'Inter', 'SF Pro Display', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
-     background: linear-gradient(to right, #d9f7f1, #ffffff);
+    background: linear-gradient(to right, #d9f7f1, #ffffff);
     color: #111827;
     margin: 0;
     padding: 0;
@@ -19,7 +19,7 @@ body {
 
 /* Left Section */
 .contact-left {
-    flex: 1 1 350px;
+    flex: 1 1 350px; /* Grow/Shrink */
     max-width: 400px;
 }
 
@@ -47,13 +47,13 @@ body {
 }
 
 .contact-left .contact-info li a {
-    color: #0d9488; /* Professional teal */
+    color: #0d9488;
     text-decoration: none;
     transition: 0.3s;
 }
 
 .contact-left .contact-info li a:hover {
-    color: #0f766e; /* Darker teal hover */
+    color: #0f766e;
 }
 
 .social-links {
@@ -85,7 +85,7 @@ body {
 
 /* Right Section / Form */
 .contact-right {
-    flex: 1 1 400px;
+    flex: 1 1 400px; /* Grow/Shrink */
     max-width: 450px;
 }
 
@@ -201,5 +201,6 @@ footer {
     .contact-left,
     .contact-right {
         max-width: 100%;
+        flex: 1 1 100%;
     }
 }

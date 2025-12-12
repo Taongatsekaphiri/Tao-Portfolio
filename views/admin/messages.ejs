@@ -1,0 +1,54 @@
+<link rel="stylesheet" href="/css/admin.css">
+
+<div class="admin-layout">
+  <!-- SIDEBAR -->
+  <%- include('../partials/sidebar') %>
+
+  <!-- MAIN CONTENT -->
+  <main class="main-content">
+    
+    <h2 class="section-title">Your Messages</h2>
+
+    <div class="messages-container">
+      <% if (messages.length === 0) { %>
+        <p class="no-messages">No messages yet 💌</p>
+      <% } %>
+
+      <% messages.forEach(msg => { %>
+        <div class="message-card">
+
+          <div class="message-meta">
+            <h3><%= msg.name || "Unknown" %></h3>
+            <span>ID: <%= msg.id %> | <%= msg.email %></span><br>
+            <small class="message-time">
+              Sent: 
+              <%= new Date(msg.created_at).toLocaleString('en-US', {
+                    weekday: 'short',
+                    year: 'numeric',
+                    month: 'short',
+                    day: 'numeric',
+                    hour: '2-digit',
+                    minute: '2-digit',
+                    hour12: true
+                  }) %>
+            </small>
+          </div>
+
+          <div class="message-body">
+            <p><%= msg.message %></p>
+          </div>
+
+          <div class="admin-actions">
+            <a href="/admin/messages/delete/<%= msg.id %>" class="delete-btn">Delete</a>
+          </div>
+
+        </div>
+      <% }) %>
+    </div>
+
+  </main>
+</div>
+
+<footer>
+  © Taonga Tseka Phiri <%= new Date().getFullYear() %> | Crafted with 💖
+</footer>

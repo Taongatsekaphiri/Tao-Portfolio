@@ -1,0 +1,34 @@
+<div class="admin-layout">
+  
+  <!-- Hidden Menu Toggle -->
+  <div class="hidden-menu-toggle" onclick="toggleHiddenMenu()">☰ Menu</div>
+
+  <!-- Hidden menu -->
+  <div id="hiddenMenu" class="hidden-menu">
+    <a href="/">Home</a>
+    <a href="/about">About</a>
+    <a href="/projects">Projects</a>
+    <a href="/contact">Contact</a>
+  </div>
+
+  <!-- SIDEBAR -->
+  <aside class="sidebar">
+    <div class="sidebar-title">Admin Portal</div>
+
+    <ul class="menu">
+      <li class="menu-item"><a href="/admin"><i class="icon">🏠</i> Home</a></li>
+      <li class="menu-item"><a href="/admin/about"><i class="icon">👤</i> About</a></li>
+      <li class="menu-item"><a href="/admin/projects"><i class="icon">💼</i> Projects</a></li>
+      <li class="menu-item"><a href="/admin/contact"><i class="icon">📞</i> Contact</a></li>
+      <li class="menu-item"><a href="/admin/messages"><i class="icon">💬</i> Messages</a></li>
+    </ul>
+  </aside>
+
+</div>
+
+<script>
+function toggleHiddenMenu() {
+  const menu = document.getElementById("hiddenMenu");
+  menu.style.display = (menu.style.display === "flex") ? "none" : "flex";
+}
+</script>

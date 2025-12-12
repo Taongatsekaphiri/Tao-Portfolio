@@ -1,0 +1,391 @@
+/* ------------------ GENERAL LAYOUT ------------------ */
+.admin-layout {
+  display: flex;
+  min-height: 100vh;
+  background: #fff;
+}
+
+/* ------------------ SIDEBAR ------------------ */
+.sidebar {
+  width: 230px;
+  background: #ff69b4;  /* bubble-pink sidebar */
+  color: white;
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  border-right: 2px solid #ff1493; /* darker pink accent */
+  box-shadow: 2px 0 5px rgba(0,0,0,0.1);
+}
+
+.sidebar-title {
+  font-size: 22px;
+  font-weight: bold;
+  margin-bottom: 20px;
+  text-align: center;
+  color: white; /* sidebar title white */
+}
+
+.menu-item a {
+  color: black; /* menu text black */
+  text-decoration: none;
+  font-size: 16px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 5px 8px;
+  border-radius: 8px;
+  transition: 0.3s;
+}
+
+.menu-item a:hover,
+.menu-item.active a {
+  color: white; /* text white on hover/active */
+  background-color: #ff1493; /* darker pink highlight */
+  font-weight: bold;
+}
+
+/* ------------------ MAIN CONTENT ------------------ */
+.main-content {
+  flex: 1;
+  padding: 30px;
+  background: #ffffff; /* main page white */
+  border-radius: 15px;
+  margin: 20px;
+  box-shadow: 0 4px 15px rgba(0,0,0,0.05);
+  color: black; /* main text black */
+}
+
+/* ------------------ DASHBOARD HEADER ------------------ */
+.dashboard-header h1 {
+  font-size: 28px;
+  margin-bottom: 5px;
+  color: #ff1493; /* darker pink heading */
+}
+
+.dashboard-header p {
+  color: #333;
+  margin-bottom: 20px;
+}
+
+/* ------------------ EMPTY STATE ------------------ */
+.empty-state {
+  margin-top: 40px;
+  font-size: 18px;
+  color: black; /* text black */
+  background: #ffffff; /* white background */
+  padding: 20px;
+  border-radius: 12px;
+  text-align: center;
+}
+
+/* ------------------ HIDDEN MENU ------------------ */
+.hidden-menu-toggle {
+  position: fixed; 
+  top: 15px;
+  right: 20px;
+  background: #ff69b4; /* bubble-pink toggle */
+  color: white;
+  padding: 8px 15px;
+  border-radius: 50px; 
+  cursor: pointer;
+  font-size: 14px;
+  z-index: 1000;
+  box-shadow: 0 2px 8px rgba(255, 20, 147, 0.3);
+  transition: 0.3s;
+}
+
+.hidden-menu-toggle:hover {
+  background: #ff1493; /* darker pink on hover */
+}
+
+.hidden-menu {
+  position: fixed;
+  top: 60px;
+  right: 20px;
+  background: #ffffff; /* white popup */
+  padding: 15px;
+  border-radius: 12px;
+  box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+  display: none;
+  flex-direction: column;
+  gap: 10px;
+  z-index: 999;
+}
+
+.hidden-menu a {
+  text-decoration: none;
+  color: black; /* links black */
+  padding: 8px 10px;
+  border-radius: 8px;
+  transition: 0.3s;
+}
+
+.hidden-menu a:hover {
+  background: #f0f0f0; /* subtle grey hover */
+}
+
+/* ------------------ CONTACTA PAGE & FORMS ------------------ */
+.admin-layout {
+  display: flex;
+  min-height: 100vh;
+  background-color: #f7f5fb; /* light background similar to dashboard */
+}
+
+.main-content {
+  flex: 1;
+  padding: 30px;
+  background-color: #ffffff;
+}
+
+section {
+  background: #fff;
+  padding: 20px;
+  margin-bottom: 25px;
+  border-radius: 12px;
+  box-shadow: 0 3px 6px rgba(0,0,0,0.05);
+}
+
+section h2 {
+  font-size: 20px;
+  color: #ff1493;
+  margin-bottom: 15px;
+}
+
+form {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+
+form label {
+  font-weight: 500;
+  color: #555;
+}
+
+form input[type="text"],
+form input[type="email"],
+form input[type="url"],
+form textarea {
+  padding: 10px 12px;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  font-size: 14px;
+  outline: none;
+  transition: border 0.2s;
+}
+
+form input:focus,
+form textarea:focus {
+  border-color: #ff1493;
+}
+
+textarea {
+  resize: vertical;
+  min-height: 80px;
+}
+
+button {
+  background-color: #ff1493;
+  color: #fff;
+  border: none;
+  padding: 10px 18px;
+  border-radius: 8px;
+  font-size: 14px;
+  cursor: pointer;
+  transition: background 0.2s;
+}
+
+button:hover {
+  background-color: #e60085;
+}
+
+/* ------------------ MESSAGES PAGE ------------------ */
+.messages-container {
+  margin-top: 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.no-messages {
+  text-align: center;
+  color: #777;
+  font-style: italic;
+}
+
+.message-card {
+  background: white;
+  border-radius: 12px;
+  padding: 20px;
+  box-shadow: 0px 4px 12px rgba(0,0,0,0.1);
+  border-left: 5px solid hotpink;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.message-meta h3 {
+  margin: 0;
+  color: hotpink;
+}
+
+.message-meta span {
+  font-size: 12px;
+  opacity: 0.7;
+}
+
+.message-meta .message-time {
+  font-size: 12px;
+  color: #555;
+  font-style: italic;
+}
+
+.message-body p {
+  margin-top: 10px;
+  font-size: 15px;
+  line-height: 1.4;
+}
+
+.delete-btn {
+  display: inline-block;
+  margin-top: 15px;
+  padding: 8px 15px;
+  background: hotpink;
+  color: white;
+  border-radius: 6px;
+  font-size: 14px;
+  text-decoration: none;
+  align-self: flex-start;
+}
+
+.delete-btn:hover {
+  background: #ff3fa8;
+}
+
+/* ------------------ FLOATING MENU BUTTON ------------------ */
+.floating-menu {
+  position: fixed;
+  top: 20px;
+  right: 20px;
+}
+
+.floating-menu button {
+  padding: 10px 20px;
+  background: hotpink;
+  color: white;
+  border: none;
+  border-radius: 20px;
+  cursor: pointer;
+  font-weight: bold;
+  font-size: 14px;
+}
+
+/* ------------------ RESPONSIVE ------------------ */
+@media (max-width: 768px) {
+  .main-content {
+    padding: 20px;
+  }
+
+  .sidebar {
+    width: 200px;
+    padding: 15px;
+  }
+
+  .dashboard-header h1 {
+    font-size: 28px;
+  }
+}
+
+.project-form, .project-card-admin {
+    border: 1px solid #ccc;
+    padding: 15px;
+    margin-bottom: 20px;
+    border-radius: 8px;
+}
+
+.project-form input, .project-form textarea {
+    width: 100%;
+    margin-bottom: 10px;
+    padding: 8px;
+    border-radius: 5px;
+}
+
+.project-list-admin {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.images-admin {
+    display: flex;
+    gap: 10px;
+    flex-wrap: wrap;
+    margin-top: 10px;
+}
+
+.image-wrapper {
+    position: relative;
+}
+
+.image-wrapper img {
+    width: 100px;
+    height: 70px;
+    object-fit: cover;
+    border-radius: 5px;
+}
+
+.image-wrapper a {
+    position: absolute;
+    top: 0;
+    right: 0;
+    background: rgba(255,0,0,0.8);
+    color: #fff;
+    padding: 2px 5px;
+    font-size: 12px;
+    border-radius: 3px;
+    text-decoration: none;
+}
+
+.delete-project-btn {
+    display: inline-block;
+    margin-top: 10px;
+    padding: 5px 10px;
+    background: #ff4d4f;
+    color: #fff;
+    text-decoration: none;
+    border-radius: 5px;
+}
+.admin-layout {
+  display: flex;
+  min-height: 100vh;
+}
+
+.admin-layout > .sidebar {
+  width: 220px; /* your sidebar width */
+  flex-shrink: 0;
+}
+
+.admin-content {
+  flex: 1; /* take all remaining width */
+  padding: 20px;
+  background-color: #f7f7f7;
+  overflow-y: auto;
+}
+
+.project-form, .project-card-admin {
+  background: #fff;
+  padding: 15px;
+  border-radius: 8px;
+  margin-bottom: 20px;
+}
+
+.project-card-admin img {
+  max-width: 100px;
+  margin-right: 10px;
+}
+
+.images-admin {
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
+}

@@ -1,47 +1,46 @@
-
- <%- include('partials/header', { 
+<%- include('partials/header', { 
     page: 'home', 
     pageStyles: '<link rel="stylesheet" href="/css/style.css">' 
 }) %>
 
-<link rel="stylesheet" href="/css/style.css">
+<section class="hero">
+  <div class="hero-left">
+    <h1>G'day, I'm Taonga!<br>I'm a Designer turned Developer ✨</h1>
+    <p id="typed-text"></p> <!-- Fade effect text will appear here -->
 
-<main class="hero">
-
-    <div class="hero-left">
-        <h1>G'day, I'm Taonga!<br>I'm a Designer turned Developer ✨</h1>
-        <p id="typed-text"></p> <!-- Fade effect text will appear here -->
-        <div class="tags">
-            <span>Front-End Development</span>
-            <span>UI/UX Design</span>
-            <span>React</span>
-            <span>Database Management</span>
-        </div>
-        <a href="/projects" class="cta-button">View My Project Log</a>
+    <div class="tags">
+      <span>Front-End Development</span>
+      <span>UI/UX Design</span>
+      <span>React</span>
+      <span>Database Management</span>
     </div>
-    <div class="hero-right">
-        <!-- <img src="/images/cute.png" alt="Taonga Tseka Phiri" class="hero-image"> -->
 
-<main class="hero-split">
-    <div class="scene-right">
+    <a href="/projects" class="cta-button">View My Project Log</a>
 
-        <!-- Coding image (background) -->
-        <img src="/images/coding.png" class="coding-bg" alt="coding illustration">
+    <div class="secret-admin" onclick="openAdminPopup()">•</div>
+  </div>
 
-        <!-- Love icon top right -->
-        <img src="/images/love.png" class="love-top-right" alt="love illustration">
-
-        <!-- Book on right
-        <img src="/images/book.png" class="book-right" alt="book illustration"> -->
-
-        <!-- Plant bottom center -->
-        <img src="/images/cuteflower.png" class="plant-bottom" alt="plant illustration">
-
+  <div class="hero-right">
+    <div class="hero-illustration">
+      <!-- Coding image (background) -->
+      <img src="/images/coding.png" class="coding-bg" alt="coding illustration">
+      <!-- Love icon top right -->
+      <img src="/images/love.png" class="love-top-right" alt="love illustration">
+      <!-- Plant bottom center -->
+      <img src="/images/cuteflower.png" class="plant-bottom" alt="plant illustration">
     </div>
-</main>
 
-    
-</main>
+    <!-- Admin Login Popup -->
+    <div id="adminPopup" class="popup-overlay">
+      <div class="popup-box">
+        <h2>Admin Access</h2>
+        <input type="password" id="adminPassword" placeholder="Enter password">
+        <button id="adminLoginBtn">Login</button>
+        <p id="errorMsg" class="error"></p>
+      </div>
+    </div>
+  </div>
+</section>
 
 <!-- Fade-in/out Text Script -->
 <script>
@@ -64,6 +63,8 @@ function showLine() {
     }, 500); // fade-out duration
 }
 
-// start animation
 showLine();
 </script>
+
+<!-- Admin Popup Script -->
+<script src="/js/admin-popup.js"></script>

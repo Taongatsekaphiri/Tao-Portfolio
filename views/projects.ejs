@@ -1,39 +1,56 @@
-<%- include('partials/header', { page: 'projects', pageStyles:
- '<link rel="stylesheet" href="/css/style.css"><link rel="stylesheet" href="/css/projects.css">' }) %>
-
+<%- include('partials/header', { 
+    page: 'projects', 
+    pageStyles: '<link rel="stylesheet" href="/css/style.css"><link rel="stylesheet" href="/css/projects.css">' 
+}) %>
 
 <a href="javascript:history.back()" class="back-btn">← Back</a>
-
 
 <section class="projects">
     <h2>Selected Projects</h2>
 
     <!-- Filter buttons -->
     <div class="project-filters">
-        <button class="filter-btn active" data-filter="all">All Projects</button>
-        <button class="filter-btn" data-filter="UI/UX">Web Development / UI/UX</button>
-        <button class="filter-btn" data-filter="Data Management">Data Management / Database</button>
+        <% categories.forEach(cat => { %>
+            <button class="filter-btn <%= cat.id === 'all' ? 'active' : '' %>" data-filter="<%= cat.id %>">
+                <%= cat.name %>
+            </button>
+        <% }) %>
     </div>
 
-   <div class="project-grid">
-    <% projects.forEach(project => { %>
-        <div class="project-card" data-category="<%= project.category %>">
-            <img src="<%= project.imageUrl %>" alt="<%= project.title %>">
-            <div class="project-info">
-                <h3><%= project.title %></h3>
-                <p><%= project.description %></p>
-                <span><%= project.tech %></span>
-                <% if(project.link) { %>
-                    <a href="<%= project.link %>" target="_blank">View Project</a>
-                <% } %>
-            </div>
-        </div>
-    <% }) %>
-</div>
+    <!-- Projects Grid -->
+    <div class="projects-list">
+        <% projects.forEach(project => { %>
+            <div class="project-card" data-category="<%= project.category %>">
+                
+                <!-- Image Carousel -->
+                <div class="carousel" data-index="0">
+                    <% project.images.forEach((img, i) => { %>
+                        <img src="<%= img %>" alt="<%= project.title %>" class="<%= i === 0 ? 'active' : '' %>">
+                    <% }) %>
+                    <% if (project.images.length > 1) { %>
+                        <button class="prev">&lt;</button>
+                        <button class="next">&gt;</button>
+                    <% } %>
+                </div>
 
+                <!-- Project Info -->
+                <div class="project-info">
+                    <h3><%= project.title %></h3>
+                    <p><%= project.description %></p>
+                    <% if(project.tech) { %>
+                        <span><%= project.tech %></span>
+                    <% } %>
+                    <% if(project.link) { %>
+                        <a href="<%= project.link %>" target="_blank">View Project</a>
+                    <% } %>
+                </div>
+            </div>
+        <% }) %>
+    </div>
 </section>
 
 <script>
+    // Filter projects
     const filterButtons = document.querySelectorAll('.filter-btn');
     const projectCards = document.querySelectorAll('.project-card');
 
@@ -47,10 +64,37 @@
             projectCards.forEach(card => {
                 if(filter === 'all' || card.getAttribute('data-category') === filter) {
                     card.style.display = 'block';
+                    card.style.opacity = 0;
+                    setTimeout(() => card.style.opacity = 1, 50);
                 } else {
-                    card.style.display = 'none';
+                    card.style.opacity = 0;
+                    setTimeout(() => card.style.display = 'none', 200);
                 }
             });
+        });
+    });
+
+    // Carousel logic
+    document.querySelectorAll('.carousel').forEach(carousel => {
+        const images = carousel.querySelectorAll('img');
+        let index = 0;
+
+        const showImage = (i) => {
+            images.forEach(img => img.classList.remove('active'));
+            images[i].classList.add('active');
+        }
+
+        const prevBtn = carousel.querySelector('.prev');
+        const nextBtn = carousel.querySelector('.next');
+
+        if(prevBtn) prevBtn.addEventListener('click', () => {
+            index = (index - 1 + images.length) % images.length;
+            showImage(index);
+        });
+
+        if(nextBtn) nextBtn.addEventListener('click', () => {
+            index = (index + 1) % images.length;
+            showImage(index);
         });
     });
 </script>
