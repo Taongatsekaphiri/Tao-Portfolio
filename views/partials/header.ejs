@@ -1,23 +1,201 @@
-<link href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@400;500;600;700&display=swap" rel="stylesheet">
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Portfolio</title>
 
+  <!-- Google Font -->
+  <link href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+  <!-- Main CSS -->
+  <link rel="stylesheet" href="/css/style.css">
+
+  <% if (pageStyles) { %>
+    <%- pageStyles %>
+  <% } %>
+</head>
+
+<body>
 
 <header class="site-header">
-    <div class="header-container">
-        <div class="logo-profile">
-           
-        </div>
-        <nav>
-            <ul>
-                <li><a href="/" class="<%= page === 'home' ? 'active' : '' %>">HOME</a></li>
-                <li><a href="/about" class="<%= page === 'about' ? 'active' : '' %>">ABOUT</a></li>
-                <li><a href="/projects" class="<%= page === 'projects' ? 'active' : '' %>">PROJECTS</a></li>
-                <li><a href="/contact" class="<%= page === 'contact' ? 'active' : '' %>">CONTACT</a></li>
-            </ul>
-        </nav>
+  <div class="header-container">
+    <div class="logo-profile">
+      <!-- Logo / profile image -->
     </div>
+
+    <nav>
+      <ul>
+        <li><a href="<%= page === 'home' ? '#home' : '/' %>" class="<%= page === 'home' ? 'active' : '' %>">HOME</a></li>
+        <li><a href="<%= page === 'home' ? '#about' : '/about' %>" class="<%= page === 'about' ? 'active' : '' %>">ABOUT</a></li>
+        <li><a href="<%= page === 'home' ? '#projects' : '/projects' %>" class="<%= page === 'projects' ? 'active' : '' %>">PROJECTS</a></li>
+        <li><a href="<%= page === 'home' ? '#contact' : '/contact' %>" class="<%= page === 'contact' ? 'active' : '' %>">CONTACT</a></li>
+      </ul>
+    </nav>
+  </div>
 </header>
+<!-- ===== THEME PICKER ===== -->
+<div class="theme-wrapper">
+  <button id="themeToggle" title="Change background">🎨</button>
+  <div id="themePopover" class="theme-popover">
+    <div class="theme-grid">
+      <button data-theme="mint" title="Original"></button>
+      <button data-theme="blush" title="Blush Pink"></button>
+      <button data-theme="white" title="Soft White"></button>
+      <button data-theme="dark" title="Night"></button>
+    </div>
+  </div>
+</div>
 
+<style>
+body { transition: background 0.6s ease, color 0.3s ease; }
 
-<% if (pageStyles) { %>
-    <%- pageStyles %>
-<% } %>
+.theme-wrapper {
+  position: fixed;
+  top: 16px;
+  right: 16px;
+  z-index: 10000;
+}
+
+#themeToggle {
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  font-size: 20px;
+  border: none;
+  cursor: pointer;
+  background: rgba(255,255,255,0.35);
+  color: #111827;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  overflow: visible;
+}
+
+#themeToggle:hover::after {
+  content: attr(title);
+  position: absolute;
+  top: 52px;
+  right: 0;
+  background: rgba(0,0,0,0.85);
+  color: #fff;
+  padding: 4px 8px;
+  font-size: 12px;
+  border-radius: 4px;
+  white-space: nowrap;
+}
+
+.theme-popover {
+  position: absolute;
+  top: 0;
+  right: 0;
+  display: none;
+  z-index: 1;
+}
+
+.theme-popover.show {
+  display: block;
+}
+
+.theme-grid {
+  width: 150px;
+  padding: 10px;
+  margin-top: 52px;
+  background: #fff;
+  border-radius: 14px;
+  box-shadow: 0 10px 25px rgba(0,0,0,0.15);
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 10px;
+}
+
+.theme-grid button {
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  border: none;
+  cursor: pointer;
+  transition: transform 0.15s ease, box-shadow 0.15s ease;
+}
+
+.theme-grid button:hover {
+  transform: scale(1.15);
+}
+
+.theme-grid button.active {
+  box-shadow: 0 0 0 3px #111827 inset;
+}
+
+.theme-grid button[data-theme="mint"]  { background: linear-gradient(135deg, #E6FAF6, #ffffff); }
+.theme-grid button[data-theme="blush"] { background: linear-gradient(135deg, #FFF1F2, #FFE4E6); }
+.theme-grid button[data-theme="white"] { background: linear-gradient(135deg, #ffffff, #f8fafc); }
+.theme-grid button[data-theme="dark"]  { background: linear-gradient(135deg, #0F172A, #111827); }
+</style>
+
+<script>
+document.addEventListener("DOMContentLoaded", () => {
+  const toggleBtn = document.getElementById("themeToggle");
+  const popover = document.getElementById("themePopover");
+  const themeButtons = document.querySelectorAll(".theme-grid button");
+
+  function applyTheme(theme) {
+    document.body.dataset.theme = theme;
+    localStorage.setItem("siteTheme", theme);
+    themeButtons.forEach(btn => {
+      btn.classList.toggle("active", btn.dataset.theme === theme);
+    });
+  }
+
+  // Load saved theme (default = mint/original)
+  const savedTheme = localStorage.getItem("siteTheme") || "mint";
+  applyTheme(savedTheme);
+
+  // Toggle popover
+  toggleBtn.addEventListener("click", (e) => {
+    e.stopPropagation();
+    popover.classList.toggle("show");
+  });
+
+  // Prevent closing when clicking inside popover
+  popover.addEventListener("click", (e) => {
+    e.stopPropagation();
+  });
+
+  // Theme click
+  themeButtons.forEach(btn => {
+    btn.addEventListener("click", () => {
+      const theme = btn.dataset.theme || "mint";
+      applyTheme(theme);
+      popover.classList.remove("show");
+    });
+  });
+
+  // Close popover on outside click
+  document.addEventListener("click", () => {
+    popover.classList.remove("show");
+  });
+
+  // -----------------------------
+  // Scroll reveal effects
+  // -----------------------------
+  const revealEls = document.querySelectorAll("[data-reveal]");
+  if (revealEls.length > 0 && "IntersectionObserver" in window) {
+    const io = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add("is-visible");
+          io.unobserve(entry.target);
+        }
+      });
+    }, { threshold: 0.2 });
+
+    revealEls.forEach(el => {
+      const dir = el.getAttribute("data-reveal");
+      el.classList.add("will-reveal");
+      if (dir === "left") el.classList.add("from-left");
+      if (dir === "right") el.classList.add("from-right");
+      io.observe(el);
+    });
+  }
+});
+</script>

@@ -1,7 +1,9 @@
 <link rel="stylesheet" href="/css/admin.css">
 
+
+
 <div class="admin-layout">
-  
+
   <!-- Hidden Menu Toggle -->
   <div class="hidden-menu-toggle" onclick="toggleHiddenMenu()">☰ Menu</div>
 
@@ -18,11 +20,12 @@
     <div class="sidebar-title">Admin Portal</div>
 
     <ul class="menu">
-      <li class="menu-item active"><a href="/admin"><i class="icon">🏠</i> Home</a></li>
-      <li class="menu-item"><a href="/admin/about"><i class="icon">👤</i> About</a></li>
-      <li class="menu-item"><a href="/admin/projects"><i class="icon">💼</i> Projects</a></li>
-      <li class="menu-item"><a href="/admin/contact"><i class="icon">📞</i> Contact</a></li>
-      <li class="menu-item"><a href="/admin/messages"><i class="icon">💬</i> Messages</a></li>
+      <li class="menu-item active"><a href="/admin">🏠 Dashboard</a></li>
+      <li class="menu-item"><a href="/admin/about">👤 About</a></li>
+      <li class="menu-item"><a href="/admin/projects">💼 Projects</a></li>
+      <li class="menu-item"><a href="/admin/contact">📞 Contact</a></li>
+      <li class="menu-item"><a href="/admin/messages">💬 Messages</a></li>
+      <li class="menu-item"><a href="/admin/index">🏡 Home</a></li>
     </ul>
   </aside>
 
@@ -33,19 +36,124 @@
       <p>Have a productive day managing your portfolio</p>
     </div>
 
+    <!-- SECURITY SECTION -->
+    <div class="dashboard-section">
+      <h2>🔐 Security</h2>
+      <button class="btn-primary" onclick="openPasswordModal()">
+        Change Password
+      </button>
+    </div>
+
     <div class="empty-state">
       <p>Select an option from the sidebar to begin</p>
     </div>
   </main>
-
 </div>
+
+<!-- ===== CHANGE PASSWORD MODAL ===== -->
+<div id="passwordModal" class="modal">
+  <div class="modal-content">
+    <span class="close-modal" onclick="closePasswordModal()">✖</span>
+
+    <h3>Change Password</h3>
+
+    <form id="changePasswordForm" class="admin-form">
+      <div class="form-group">
+        <label>Current Password</label>
+        <input type="password" id="currentPassword" required>
+      </div>
+
+      <div class="form-group">
+        <label>New Password</label>
+        <input type="password" id="newPassword" required minlength="4">
+      </div>
+
+      <div class="form-group">
+        <label>Confirm New Password</label>
+        <input type="password" id="confirmPassword" required minlength="4">
+      </div>
+
+      <button type="submit" class="btn-primary">Update Password</button>
+      <div id="passwordMessage" class="message" style="display:none;margin-top:10px;"></div>
+    </form>
+  </div>
+</div>
+<script>
+document.getElementById("changePasswordForm").addEventListener("submit", function (e) {
+  e.preventDefault();
+
+  const currentPassword = document.getElementById("currentPassword").value;
+  const newPassword = document.getElementById("newPassword").value;
+  const confirmPassword = document.getElementById("confirmPassword").value;
+  const msg = document.getElementById("passwordMessage");
+
+  if (newPassword !== confirmPassword) {
+    msg.textContent = "Passwords do not match!";
+    msg.style.color = "#dc3545";
+    msg.style.display = "block";
+    return;
+  }
+
+  fetch("/admin/change-password", {
+  method: "POST",
+  credentials: "same-origin",   // ⭐ THIS LINE FIXES EVERYTHING
+  headers: { "Content-Type": "application/json" },
+  body: JSON.stringify({ currentPassword, newPassword })
+})
+
+    .then(res => res.json())
+    .then(data => {
+      if (data.success) {
+        msg.textContent = "Password updated successfully!";
+        msg.style.color = "#28a745";
+        msg.style.display = "block";
+
+        document.getElementById("changePasswordForm").reset();
+        setTimeout(closePasswordModal, 1500);
+      } else {
+        msg.textContent = data.message || "Update failed!";
+        msg.style.color = "#dc3545";
+        msg.style.display = "block";
+      }
+    })
+    .catch(err => {
+      console.error(err);
+      msg.textContent = "Server error!";
+      msg.style.color = "#dc3545";
+      msg.style.display = "block";
+    });
+});
+</script>
+
+<script>
+function openPasswordModal() {
+  document.getElementById("passwordModal").style.display = "flex";
+}
+
+function closePasswordModal() {
+  document.getElementById("passwordModal").style.display = "none";
+}
+
+/* Optional: close modal when clicking outside */
+window.onclick = function (event) {
+  const modal = document.getElementById("passwordModal");
+  if (event.target === modal) {
+    modal.style.display = "none";
+  }
+};
+</script>
 
 <script>
 function toggleHiddenMenu() {
   const menu = document.getElementById("hiddenMenu");
-  menu.style.display = (menu.style.display === "flex") ? "none" : "flex";
+
+  if (!menu) return;
+
+  menu.style.display =
+    menu.style.display === "flex" ? "none" : "flex";
 }
 </script>
+
 
 <footer>
   © Taonga Tseka Phiri <%= new Date().getFullYear() %> | Crafted with 💖

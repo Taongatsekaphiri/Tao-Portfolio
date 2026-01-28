@@ -1,0 +1,48 @@
+<link rel="stylesheet" href="/css/admin.css">
+
+<div class="admin-layout">
+
+  <!-- Sidebar -->
+  <%- include('../partials/sidebar') %>
+
+  <!-- Main Content -->
+  <div class="admin-content">
+    <h2>Edit About Page</h2>
+
+    <form action="/admin/abouta/update" method="POST" enctype="multipart/form-data" class="project-form">
+
+      <!-- Main Content -->
+      <label>Main Content</label>
+      <textarea name="content" required><%= about.content %></textarea>
+
+      <!-- Additional Section -->
+      <label>Additional Section (optional)</label>
+      <textarea name="additional_content"><%= about.additional_content %></textarea>
+
+      <!-- Skills (optional, comma-separated) -->
+      <label>Skills (comma-separated)</label>
+<input type="text" name="skills" value="<%= about.skills || '' %>">
+
+      <!-- Profile Picture -->
+      <label>Profile Picture</label>
+      <% if (about.profile_pic) { %>
+        <img src="<%= about.profile_pic %>" alt="Profile" style="width:100px; display:block; margin-bottom:10px;">
+      <% } %>
+      <input type="file" name="profile_pic">
+
+      <!-- CV PDF -->
+      <label>CV (PDF)</label>
+      <% if (about.cv_link) { %>
+        <a href="<%= about.cv_link %>" target="_blank">Current CV</a>
+      <% } %>
+      <input type="file" name="cv_link">
+
+      <!-- Submit -->
+      <button type="submit" class="btn-update">Update About Page</button>
+
+    </form>
+  </div>
+
+</div>
+
+

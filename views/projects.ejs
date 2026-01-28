@@ -5,7 +5,7 @@
 
 <a href="javascript:history.back()" class="back-btn">← Back</a>
 
-<section class="projects">
+<section class="projects" data-reveal="up">
     <h2>Selected Projects</h2>
 
     <!-- Filter buttons -->
@@ -20,7 +20,7 @@
     <!-- Projects Grid -->
     <div class="projects-list">
         <% projects.forEach(project => { %>
-            <div class="project-card" data-category="<%= project.category %>">
+            <div class="project-card" data-category="<%= project.category %>" data-reveal="up">
                 
                 <!-- Image Carousel -->
                 <div class="carousel" data-index="0">

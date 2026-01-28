@@ -1,0 +1,377 @@
+<%- include('partials/header', {
+  page: 'home',
+  pageStyles: `
+    <link rel="stylesheet" href="/css/style.css">
+    <link rel="stylesheet" href="/css/about.css">
+    <link rel="stylesheet" href="/css/projects.css">
+    <link rel="stylesheet" href="/css/contact.css">
+  `
+}) %>
+
+<style>
+  html { scroll-behavior: smooth; }
+  body { 
+    margin: 0;
+    padding: 0;
+  }
+</style>
+
+<% const safeHome = typeof home !== 'undefined' && home ? home : {}; %>
+
+<div class="main-content">
+<!-- Home Section -->
+<section id="home" class="fp-section hero" data-bg-color="<%= safeHome.bg_color || '#E6FAF6' %>">
+  <div class="hero-left" data-reveal="left">
+    <h1><%= safeHome.main_heading || '' %></h1>
+    <p id="typed-text" data-typed-lines="<%= JSON.stringify(Array.isArray(safeHome.typed_lines) ? safeHome.typed_lines : []) %>"></p>
+
+    <% const tagsArray = safeHome.tags ? safeHome.tags.split(',') : []; %>
+    <% if (tagsArray.length > 0) { %>
+      <div class="tags">
+        <% for (var i = 0; i < tagsArray.length; i++) { %>
+          <span><%= tagsArray[i].trim() %></span>
+        <% } %>
+      </div>
+    <% } %>
+
+    <% if (safeHome.button_text) { %>
+      <a href="<%= safeHome.button_link || '#' %>" class="cta-button"><%= safeHome.button_text %></a>
+    <% } %>
+
+    <div class="secret-admin" onclick="openAdminPopup()">•</div>
+  </div>
+  <div class="hero-right" data-reveal="right">
+    <div class="hero-illustration">
+      <% if (safeHome.love_image) { %>
+        <img src="<%= safeHome.love_image %>" class="love-top-right" alt="love">
+      <% } %>
+
+      <% if (safeHome.main_image) { %>
+        <img src="<%= safeHome.main_image %>" class="main-illustration coding-bg" alt="main">
+      <% } %>
+
+      <% if (safeHome.plant_image) { %>
+        <img src="<%= safeHome.plant_image %>" class="plant-bottom" alt="plant">
+      <% } %>
+    </div>
+  </div>
+</section>
+
+<div id="adminPopup" class="popup-overlay">
+  <div class="popup-box">
+    <span class="close-btn" onclick="closeAdminPopup()">&times;</span>
+    <h2>Admin Access</h2>
+    <input type="password" id="adminPassword" placeholder="Enter password">
+    <button id="adminLoginBtn">Login</button>
+    <p id="errorMsg" class="error"></p>
+  </div>
+</div>
+
+<!-- About Section (matches standalone about.ejs) -->
+<section id="about" class="fp-section about-container" data-reveal="up">
+  <div class="about-left">
+    <img src="<%= about && about.profile_pic ? about.profile_pic : '' %>" alt="Taonga Tseka Phiri" class="profile-img">
+    <% if(about && about.cv_link) { %>
+      <a href="<%= about.cv_link %>" download class="cv-btn">Download CV</a>
+    <% } %>
+  </div>
+  <div class="about-right">
+    <% if(about && about.content) { %>
+      <p><%= about.content %></p>
+    <% } %>
+
+    <% if(about && about.additional_content) { %>
+      <div class="additional-content">
+        <%= about.additional_content %>
+      </div>
+    <% } %>
+
+    <h2><i class="fas fa-laptop-code"></i> Skills</h2>
+    <ul class="skills">
+      <% const aboutSkills = (about && Array.isArray(about.skills)) ? about.skills : ((about && typeof about.skills === 'string') ? about.skills.split(',') : []); %>
+      <% (aboutSkills || []).forEach(skill => { %>
+        <li><%= skill %></li>
+      <% }) %>
+    </ul>
+  </div>
+</section>
+
+<!-- Projects Section (matches standalone projects.ejs layout) -->
+<section id="projects" class="fp-section projects" data-reveal="up">
+  <h2>Selected Projects</h2>
+
+  <!-- Filter buttons -->
+  <div class="project-filters">
+    <% if (Array.isArray(categories)) { categories.forEach(cat => { %>
+      <button class="filter-btn <%= cat.id === 'all' ? 'active' : '' %>" data-filter="<%= cat.id %>">
+        <%= cat.name %>
+      </button>
+    <% }); } %>
+  </div>
+
+  <!-- Projects Grid -->
+  <div class="projects-list">
+    <% if (Array.isArray(projects)) { projects.forEach(project => { %>
+      <div class="project-card" data-category="<%= project.category %>" data-reveal="up">
+        <!-- Image Carousel -->
+        <div class="carousel" data-index="0">
+          <% (project.images || []).forEach((img, i) => { %>
+            <img src="<%= img %>" alt="<%= project.title %>" class="<%= i === 0 ? 'active' : '' %>">
+          <% }) %>
+          <% if (project.images && project.images.length > 1) { %>
+            <button class="prev">&lt;</button>
+            <button class="next">&gt;</button>
+          <% } %>
+        </div>
+        <!-- Project Info -->
+        <div class="project-info">
+          <h3><%= project.title %></h3>
+          <p><%= project.description %></p>
+          <% if(project.tech) { %>
+            <span><%= project.tech %></span>
+          <% } %>
+          <% if(project.link) { %>
+            <a href="<%= project.link %>" target="_blank">View Project</a>
+          <% } %>
+        </div>
+      </div>
+    <% }); } %>
+  </div>
+</section>
+
+<!-- Contact Section (matches standalone contact.ejs layout) -->
+<section id="contact" class="fp-section contact-page" data-reveal="up">
+  <!-- Left Section: Info and Social -->
+  <div class="contact-left">
+    <h1><%= contact && contact.title ? contact.title : "Let's Build Something Remarkable" %></h1>
+    <p><%= contact && contact.subtitle ? contact.subtitle : "Feeling social? Find me on these online spaces too!" %></p>
+
+    <ul class="contact-info">
+      <li>
+        <strong>Email:</strong>
+        <a href="mailto:<%= contact && contact.email ? contact.email : 'tsekaphiritaonga@gmail.com' %>">
+          <%= contact && contact.email ? contact.email : 'tsekaphiritaonga@gmail.com' %>
+        </a>
+      </li>
+      <li>
+        <strong>Phone:</strong>
+        <a href="tel:<%= contact && contact.phone ? contact.phone : '+265998888020' %>">
+          <%= contact && contact.phone ? contact.phone : '+265998888020' %>
+        </a>
+      </li>
+      <li>
+        <strong>Location:</strong>
+        <span><%= contact && contact.location ? contact.location : 'Lilongwe, Malawi' %></span>
+      </li>
+    </ul>
+
+    <div class="social-links">
+      <span>Find me online:</span>
+      <% if (contact && contact.github) { %>
+        <a href="<%= contact.github %>" target="_blank" rel="noopener">GitHub</a>
+      <% } %>
+      <% if (contact && contact.linkedin) { %>
+        <a href="<%= contact.linkedin %>" target="_blank" rel="noopener">LinkedIn</a>
+      <% } %>
+    </div>
+  </div>
+
+  <!-- Right Section: Contact Form -->
+  <div class="contact-right">
+    <div class="form-card">
+      <h2>Send a message</h2>
+      <form id="contactForm" class="contact-form">
+        <div class="form-group">
+          <input id="name" name="name" type="text" placeholder=" " required />
+          <label for="name">Name</label>
+        </div>
+        <div class="form-group">
+          <input id="email" name="email" type="email" placeholder=" " required />
+          <label for="email">Email</label>
+        </div>
+        <div class="form-group">
+          <input id="subject" name="subject" type="text" placeholder=" " />
+          <label for="subject">Subject</label>
+        </div>
+        <div class="form-group">
+          <textarea id="message" name="message" rows="5" placeholder=" " required></textarea>
+          <label for="message">Message</label>
+        </div>
+        <button type="submit" class="submit-btn">Send</button>
+        <div id="formMessage" class="success-msg" style="display:none;"></div>
+      </form>
+    </div>
+  </div>
+</section>
+
+</div>
+
+<footer>
+  © Taonga Tseka Phiri <%= new Date().getFullYear() %> | Crafted with Precision
+</footer>
+
+<script>
+  // Home typed text
+  (function(){
+    const el = document.getElementById('typed-text');
+    if(!el) return;
+    let lines = [];
+    try { lines = JSON.parse(el.dataset.typedLines || '[]'); } catch(e) { lines = []; }
+    let index = 0;
+    function showLine(){
+      if (!el || lines.length === 0) return;
+      el.textContent = lines[index];
+      index = (index + 1) % lines.length;
+      setTimeout(showLine, 3000);
+    }
+    if (lines.length > 0) showLine();
+  })();
+
+  // Projects filter and carousel
+  (function(){
+    const filterButtons = document.querySelectorAll('.filter-btn');
+    const projectCards = document.querySelectorAll('.project-card');
+    filterButtons.forEach(btn => {
+      btn.addEventListener('click', () => {
+        filterButtons.forEach(b => b.classList.remove('active'));
+        btn.classList.add('active');
+        const filter = btn.getAttribute('data-filter');
+        projectCards.forEach(card => {
+          if(filter === 'all' || card.getAttribute('data-category') === filter) {
+            card.style.display = 'block';
+            card.style.opacity = 0;
+            setTimeout(() => card.style.opacity = 1, 50);
+          } else {
+            card.style.opacity = 0;
+            setTimeout(() => card.style.display = 'none', 200);
+          }
+        });
+      });
+    });
+    document.querySelectorAll('.carousel').forEach(carousel => {
+      const images = carousel.querySelectorAll('img');
+      let index = 0;
+      const showImage = (i) => {
+        images.forEach(img => img.classList.remove('active'));
+        images[i].classList.add('active');
+      }
+      const prevBtn = carousel.querySelector('.prev');
+      const nextBtn = carousel.querySelector('.next');
+      if(prevBtn) prevBtn.addEventListener('click', () => {
+        index = (index - 1 + images.length) % images.length;
+        showImage(index);
+      });
+      if(nextBtn) nextBtn.addEventListener('click', () => {
+        index = (index + 1) % images.length;
+        showImage(index);
+      });
+    });
+  })();
+</script>
+<script src="/js/admin-popup.js"></script>
+<script src="/js/contact.js"></script>
+<script>
+  (function(){
+    const container = document.querySelector('.fullpage') || document.documentElement;
+    const sections = Array.from(document.querySelectorAll('.fp-section'));
+    if (!sections.length) return;
+
+    // Active nav + hash sync via IntersectionObserver
+    const navLinks = Array.from(document.querySelectorAll('.site-header nav a'));
+    const idToLink = Object.fromEntries(navLinks.map(a => {
+      const hash = a.getAttribute('href') || '';
+      const id = hash.startsWith('#') ? hash.slice(1) : '';
+      return [id, a];
+    }));
+
+    const io = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting && entry.intersectionRatio > 0.6) {
+          const id = entry.target.getAttribute('id');
+          if (!id) return;
+          // Update URL hash without jump
+          if (history.replaceState) history.replaceState(null, '', `#${id}`);
+          // Update active nav
+          navLinks.forEach(a => a.classList.remove('active'));
+          if (idToLink[id]) idToLink[id].classList.add('active');
+        }
+      });
+    }, { threshold: [0.6] });
+
+    sections.forEach(sec => io.observe(sec));
+
+    // Wheel snap controller for desktop
+    let isScrolling = false;
+    let currentIndex = 0;
+    const indexById = Object.fromEntries(sections.map((s, i) => [s.id, i]));
+    // Initialize from hash if present
+    if (location.hash) {
+      const id = location.hash.replace('#','');
+      if (indexById[id] != null) currentIndex = indexById[id];
+    }
+
+    function scrollToIndex(i) {
+      if (i < 0 || i >= sections.length) return;
+      isScrolling = true;
+      currentIndex = i;
+      sections[i].scrollIntoView({ behavior: 'smooth', block: 'start' });
+      setTimeout(() => { isScrolling = false; }, 900);
+    }
+
+    function hasScrollableParent(el) {
+      while (el && el !== document.body) {
+        const style = getComputedStyle(el);
+        const overflowY = style.overflowY;
+        if ((overflowY === 'auto' || overflowY === 'scroll') && el.scrollHeight > el.clientHeight) {
+          return true;
+        }
+        el = el.parentElement;
+      }
+      return false;
+    }
+
+    const wheelHandler = (e) => {
+      // Allow natural scroll inside scrollable elements (e.g., carousels, text blocks)
+      if (hasScrollableParent(e.target)) return;
+      e.preventDefault();
+      if (isScrolling) return;
+      const delta = e.deltaY || e.wheelDelta || (-e.detail);
+      if (delta > 0) {
+        scrollToIndex(currentIndex + 1);
+      } else if (delta < 0) {
+        scrollToIndex(currentIndex - 1);
+      }
+    };
+
+    // Only apply wheel snapping on non-touch / desktop
+    const isTouch = 'ontouchstart' in window || navigator.maxTouchPoints > 0;
+    if (!isTouch) {
+      // Attach to container if present, else window
+      (document.querySelector('.fullpage') || window).addEventListener('wheel', wheelHandler, { passive: false });
+    }
+
+    // Anchor clicks should also update index
+    navLinks.forEach(a => {
+      const href = a.getAttribute('href') || '';
+      if (href.startsWith('#')) {
+        a.addEventListener('click', (e) => {
+          const id = href.slice(1);
+          const idx = indexById[id];
+          if (idx != null) {
+            e.preventDefault();
+            scrollToIndex(idx);
+          }
+        });
+      }
+    });
+
+    // If page loaded with hash, ensure correct section is scrolled into view on start
+    window.addEventListener('load', () => {
+      if (location.hash) {
+        const id = location.hash.replace('#','');
+        const idx = indexById[id];
+        if (idx != null) scrollToIndex(idx);
+      }
+    });
+  })();
+</script>

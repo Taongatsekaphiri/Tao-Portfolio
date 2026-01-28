@@ -1,0 +1,50 @@
+
+<link rel="stylesheet" href="/css/admin.css">
+
+<div class="admin-layout">
+  <%- include('../partials/sidebar') %>
+  <div class="admin-content">
+    <h2>Edit Home Page</h2>
+    <p>Update the content, images, and buttons that appear on the Home page.</p>
+
+      <form action="/admin/home/update" method="POST" enctype="multipart/form-data">
+   
+        <label>Main Heading</label>
+    <textarea name="main_heading" required placeholder="Enter the main heading for your Home page"><%= home.main_heading || '' %></textarea>
+
+    <label>Typed Text Lines (one per line)</label>
+    <textarea name="typed_lines" placeholder="Enter lines of text to display dynamically"><%= home.typed_lines ? JSON.parse(home.typed_lines).join('\n') : '' %></textarea>
+
+    <label>Tags (comma-separated)</label>
+    <input type="text" name="tags" value="<%= home.tags || '' %>" placeholder="e.g., web, development, portfolio">
+
+    <label>Main Illustration</label>
+<% if (home.main_image) { %>
+  <img src="<%= home.main_image %>" alt="Main Illustration" style="width:150px; display:block; margin-bottom:5px;">
+  <label><input type="checkbox" name="remove_main_image"> Remove current image</label>
+<% } %>
+<input type="file" name="main_image">
+
+<label>Love Icon</label>
+<% if (home.love_image) { %>
+  <img src="<%= home.love_image %>" alt="Love Icon" style="width:50px; display:block; margin-bottom:5px;">
+  <label><input type="checkbox" name="remove_love_image"> Remove current image</label>
+<% } %>
+<input type="file" name="love_image">
+
+<label>Plant Image</label>
+<% if (home.plant_image) { %>
+  <img src="<%= home.plant_image %>" alt="Plant Image" style="width:50px; display:block; margin-bottom:5px;">
+  <label><input type="checkbox" name="remove_plant_image"> Remove current image</label>
+<% } %>
+<input type="file" name="plant_image">
+
+    <label>Button Text</label>
+    <input type="text" name="button_text" value="<%= home.button_text || '' %>" placeholder="Text for the call-to-action button">
+
+    <label>Button Link</label>
+    <input type="text" name="button_link" value="<%= home.button_link || '' %>" placeholder="URL for the button link">
+
+    <button type="submit" class="btn-update">Update Home Page</button>
+  </form>
+</div>

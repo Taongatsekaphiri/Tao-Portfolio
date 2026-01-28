@@ -8,27 +8,26 @@ body {
 
 .about-container {
     display: flex;
-    flex-wrap: wrap;
+    flex-direction: row;           /* image left, text right on desktop */
+    align-items: center;
+    justify-content: space-between;
     max-width: 1000px;
-    margin: 60px auto;
-    padding: 20px;
+    margin: 0 auto;          /* remove extra gap between home and about (one-page) */
+    padding: 0;              /* let section padding handle spacing */
     gap: 40px;
+    text-align: left;
 }
 
 .about-left {
-    flex: 1;
-    min-width: 250px;
+    width: 40%;
     text-align: center;
     animation: fadeInLeft 1s ease;
 }
 .about-right {
-    flex: 2;
-    min-width: 300px;
+    width: 60%;
     color: #0d9488;
     font-family: 'Arial', sans-serif;
     animation: fadeInRight 1s ease;
-    margin-top: 100px; /* adjust this number */
-
 }
 
 
@@ -101,6 +100,11 @@ body {
     .about-container {
         flex-direction: column;
         text-align: center;
+    }
+
+    .about-left,
+    .about-right {
+        width: 100%;
     }
 
     .about-right h2 {

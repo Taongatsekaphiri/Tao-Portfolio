@@ -1,102 +1,74 @@
-<%- include('partials/header', { page: 'contact', pageStyles }) %>
+<%- include('partials/header', { 
+  page: page || 'contact', 
+  pageStyles: pageStyles || '<link rel="stylesheet" href="/css/style.css"><link rel="stylesheet" href="/css/contact.css">' 
+}) %>
 
-
-<a href="javascript:history.back()" class="back-btn">← Back</a>
-
-<div class="contact-page">
-  <!-- Left Section -->
+<section class="contact-page" data-reveal="up">
+  <!-- Left Section: Info and Social -->
   <div class="contact-left">
-    <h1><%= contact.title %></h1>
-    <p><%= contact.subtitle %></p>
+    <h1><%= contact && contact.title ? contact.title : "Let's Build Something Remarkable" %></h1>
+    <p><%= contact && contact.subtitle ? contact.subtitle : "Feeling social? Find me on these online spaces too!" %></p>
 
     <ul class="contact-info">
-      <li>Email: <a href="mailto:<%= contact.email %>"><%= contact.email %></a></li>
-      <li>Phone: <a href="tel:<%= contact.phone %>"><%= contact.phone %></a></li>
-      <li>Location: <%= contact.location %></li>
+      <li>
+        <strong>Email:</strong>
+        <a href="mailto:<%= contact && contact.email ? contact.email : 'tsekaphiritaonga@gmail.com' %>">
+          <%= contact && contact.email ? contact.email : 'tsekaphiritaonga@gmail.com' %>
+        </a>
+      </li>
+      <li>
+        <strong>Phone:</strong>
+        <a href="tel:<%= contact && contact.phone ? contact.phone : '+265998888020' %>">
+          <%= contact && contact.phone ? contact.phone : '+265998888020' %>
+        </a>
+      </li>
+      <li>
+        <strong>Location:</strong>
+        <span><%= contact && contact.location ? contact.location : 'Lilongwe, Malawi' %></span>
+      </li>
     </ul>
 
     <div class="social-links">
-      <span>Follow Me:</span>
-      <a href="<%= contact.github %>" target="_blank">GitHub</a>
-      <a href="<%= contact.linkedin %>" target="_blank">LinkedIn</a>
+      <span>Find me online:</span>
+      <% if (contact && contact.github) { %>
+        <a href="<%= contact.github %>" target="_blank" rel="noopener">GitHub</a>
+      <% } %>
+      <% if (contact && contact.linkedin) { %>
+        <a href="<%= contact.linkedin %>" target="_blank" rel="noopener">LinkedIn</a>
+      <% } %>
     </div>
   </div>
 
-  <!-- Right Section / Contact Form -->
+  <!-- Right Section: Contact Form -->
   <div class="contact-right">
     <div class="form-card">
-      <h2>Send a Message</h2>
-      <form id="contactForm" class="contact-form" action="/contact" method="POST">
+      <h2>Send a message</h2>
+      <form id="contactForm" class="contact-form">
         <div class="form-group">
-          <input type="text" name="name" placeholder=" " required>
-          <label>Full Name</label>
+          <input id="name" name="name" type="text" placeholder=" " required />
+          <label for="name">Name</label>
         </div>
-
         <div class="form-group">
-          <input type="email" name="email" placeholder=" " required>
-          <label>Email</label>
+          <input id="email" name="email" type="email" placeholder=" " required />
+          <label for="email">Email</label>
         </div>
-
         <div class="form-group">
-          <textarea name="message" placeholder=" " required></textarea>
-          <label>Your Message</label>
+          <input id="subject" name="subject" type="text" placeholder=" " />
+          <label for="subject">Subject</label>
         </div>
-
+        <div class="form-group">
+          <textarea id="message" name="message" rows="5" placeholder=" " required></textarea>
+          <label for="message">Message</label>
+        </div>
         <button type="submit" class="submit-btn">Send</button>
+        <div id="formMessage" class="success-msg" style="display:none;"></div>
       </form>
-
-      <div id="formMessage" class="success-msg" style="display: none; flex-direction: column; align-items: center; gap: 10px;">
-        <svg width="50" height="50" viewBox="0 0 24 24">
-          <path fill="none" stroke="#10b981" stroke-width="3" d="M4 12l6 6L20 6"/>
-        </svg>
-        <span>Message sent successfully! I will get back to you soon.</span>
-        <button id="sendAnother" class="submit-btn" style="margin-top: 10px;">Send Another Message</button>
-      </div>
     </div>
   </div>
-</div>
+</section>
 
-<footer>
-  © Taonga Tseka Phiri <%= new Date().getFullYear() %> | Crafted with Precision
-</footer>
+<script src="/js/contact.js"></script>
 
-<script>
-// AJAX for contact form submission
-document.addEventListener('DOMContentLoaded', () => {
-  const form = document.getElementById('contactForm');
-  const formMessage = document.getElementById('formMessage');
-  const sendAnother = document.getElementById('sendAnother');
+<%- include('partials/footer') %>
 
-  form.addEventListener('submit', (e) => {
-    e.preventDefault();
 
-    const data = {
-      name: form.name.value,
-      email: form.email.value,
-      message: form.message.value
-    };
-
-    fetch('/contact', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify(data)
-    })
-    .then(res => res.json())
-    .then(result => {
-      if (result.status === 'success') {
-        form.style.display = 'none';
-        formMessage.style.display = 'flex';
-      } else {
-        alert("Error: " + result.details);
-      }
-    })
-    .catch(err => console.error(err));
-  });
-
-  sendAnother.addEventListener('click', () => {
-    form.reset();
-    form.style.display = 'block';
-    formMessage.style.display = 'none';
-  });
-});
-</script>

@@ -2,6 +2,10 @@ function openAdminPopup() {
     document.getElementById('adminPopup').style.display = 'flex';
 }
 
+function closeAdminPopup() {
+    document.getElementById('adminPopup').style.display = 'none';
+}
+
 document.getElementById("adminLoginBtn").addEventListener("click", function(e) {
     e.preventDefault();
 
@@ -26,4 +30,12 @@ document.getElementById("adminLoginBtn").addEventListener("click", function(e) {
         console.error(err);
         errorMsg.textContent = "Something went wrong!";
     });
+});
+
+// Optional: Close popup when clicking outside the box
+document.addEventListener('click', function(event) {
+    const popup = document.getElementById('adminPopup');
+    if (popup && event.target === popup) {
+        closeAdminPopup();
+    }
 });

@@ -1,70 +1,86 @@
-<%- include('partials/header', { 
-    page: 'home', 
-    pageStyles: '<link rel="stylesheet" href="/css/style.css">' 
+<%- include('partials/header', {
+  page: 'home',
+  pageStyles: `<link rel="stylesheet" href="/css/style.css">`
 }) %>
 
-<section class="hero">
-  <div class="hero-left">
-    <h1>G'day, I'm Taonga!<br>I'm a Designer turned Developer ✨</h1>
-    <p id="typed-text"></p> <!-- Fade effect text will appear here -->
+<% const safeHome = typeof home !== 'undefined' && home ? home : {}; %>
 
-    <div class="tags">
-      <span>Front-End Development</span>
-      <span>UI/UX Design</span>
-      <span>React</span>
-      <span>Database Management</span>
-    </div>
+<section id="home" class="hero" data-bg-color="<%= safeHome.bg_color || '#E6FAF6' %>">
+  <div class="hero-left" data-reveal="left">
+    <h1><%= safeHome.main_heading || '' %></h1>
+    <p id="typed-text" data-typed-lines="<%= JSON.stringify(Array.isArray(safeHome.typed_lines) ? safeHome.typed_lines : []) %>"></p>
 
-    <a href="/projects" class="cta-button">View My Project Log</a>
+    <% const tagsArray = safeHome.tags ? safeHome.tags.split(',') : []; %>
+    <% if (tagsArray.length > 0) { %>
+      <div class="tags">
+        <% for (var i = 0; i < tagsArray.length; i++) { %>
+          <span><%= tagsArray[i].trim() %></span>
+        <% } %>
+      </div>
+    <% } %>
+
+    <% if (safeHome.button_text) { %>
+      <a href="<%= safeHome.button_link || '#' %>" class="cta-button"><%= safeHome.button_text %></a>
+    <% } %>
 
     <div class="secret-admin" onclick="openAdminPopup()">•</div>
   </div>
 
-  <div class="hero-right">
+  <div class="hero-right" data-reveal="right">
     <div class="hero-illustration">
-      <!-- Coding image (background) -->
-      <img src="/images/coding.png" class="coding-bg" alt="coding illustration">
-      <!-- Love icon top right -->
-      <img src="/images/love.png" class="love-top-right" alt="love illustration">
-      <!-- Plant bottom center -->
-      <img src="/images/cuteflower.png" class="plant-bottom" alt="plant illustration">
-    </div>
+      <% if (safeHome.love_image) { %>
+        <img src="<%= safeHome.love_image %>" class="love-top-right" alt="love">
+      <% } %>
 
-    <!-- Admin Login Popup -->
-    <div id="adminPopup" class="popup-overlay">
-      <div class="popup-box">
-        <h2>Admin Access</h2>
-        <input type="password" id="adminPassword" placeholder="Enter password">
-        <button id="adminLoginBtn">Login</button>
-        <p id="errorMsg" class="error"></p>
-      </div>
+      <% if (safeHome.main_image) { %>
+        <img src="<%= safeHome.main_image %>" class="main-illustration coding-bg" alt="main">
+      <% } %>
+
+      <% if (safeHome.plant_image) { %>
+        <img src="<%= safeHome.plant_image %>" class="plant-bottom" alt="plant">
+      <% } %>
     </div>
   </div>
 </section>
 
-<!-- Fade-in/out Text Script -->
+<div id="adminPopup" class="popup-overlay">
+  <div class="popup-box">
+    <span class="close-btn" onclick="closeAdminPopup()">&times;</span>
+    <h2>Admin Access</h2>
+    <input type="password" id="adminPassword" placeholder="Enter password">
+    <button id="adminLoginBtn">Login</button>
+    <p id="errorMsg" class="error"></p>
+  </div>
+</div>
+
+<footer>
+  © Taonga Tseka Phiri <%= new Date().getFullYear() %> | Crafted with Precision
+</footer>
+
 <script>
-const lines = [
-    "💻 A Digital Dreamweaver and Pixel Princess who believes technology should be as beautiful as it is powerful.",
-    "I craft innovative web applications and manage databases.",
-    "I transform ideas into functional digital experiences 🌸."
-];
+  // Home typed text
+  (function(){
+    const el = document.getElementById('typed-text');
+    if(!el) return;
+    let lines = [];
+    try { lines = JSON.parse(el.dataset.typedLines || '[]'); } catch(e) { lines = []; }
+    let index = 0;
+    function showLine(){
+      if (!el || lines.length === 0) return;
+      el.textContent = lines[index];
+      index = (index + 1) % lines.length;
+      setTimeout(showLine, 3000);
+    }
+    if (lines.length > 0) showLine();
+  })();
 
-let index = 0;
-const typedEl = document.getElementById('typed-text');
-
-function showLine() {
-    typedEl.style.opacity = 0; // hide
-    setTimeout(() => {
-        typedEl.innerText = lines[index];
-        typedEl.style.opacity = 1; // fade in
-        index = (index + 1) % lines.length; // next line
-        setTimeout(showLine, 3000); // show next after 3s
-    }, 500); // fade-out duration
-}
-
-showLine();
+  // Apply dynamic hero background color (avoids template-lint CSS parse issues)
+  (function(){
+    const hero = document.getElementById('home');
+    if (!hero) return;
+    const bg = hero.dataset.bgColor;
+    if (bg) hero.style.backgroundColor = bg;
+  })();
 </script>
 
-<!-- Admin Popup Script -->
 <script src="/js/admin-popup.js"></script>
